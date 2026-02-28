@@ -2,16 +2,41 @@ import { createContext, useContext, useState, useEffect } from 'react'
 import authService from '../services/authService'
 
 const AuthContext = createContext(null)
+const authBypassEnabled = import.meta.env.VITE_DISABLE_AUTH === 'true'
+const demoEmail = import.meta.env.VITE_DEMO_EMAIL || 'demo.clinician@hospital.com'
+const demoPassword = import.meta.env.VITE_DEMO_PASSWORD || 'SecurePass123!'
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    // Check if user is logged in on mount
-    const currentUser = authService.getCurrentUser()
-    setUser(currentUser)
-    setLoading(false)
+    const initializeAuth = async () => {
+      const currentUser = authService.getCurrentUser()
+
+      if (currentUser) {
+        setUser(currentUser)
+        setLoading(false)
+        return
+      }
+
+      if (authBypassEnabled) {
+        try {
+          const data = await authService.login(demoEmail, demoPassword)
+          setUser({ userId: data.userId, email: data.email, role: data.role })
+        } catch (error) {
+          setUser({ userId: 'bypass-user', email: demoEmail, role: 'CLINICIAN' })
+        } finally {
+          setLoading(false)
+        }
+        return
+      }
+
+      setUser(null)
+      setLoading(false)
+    }
+
+    initializeAuth()
   }, [])
 
   const login = async (email, password) => {

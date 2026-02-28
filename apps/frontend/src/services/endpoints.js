@@ -212,11 +212,11 @@ export const aiApi = {
   
   // Check symptoms and predict diseases
   checkSymptoms: (symptomData) => 
-    apiClient.post('/ai/check-symptoms', symptomData),
+    apiClient.post('/ai/predict/symptoms', symptomData),
   
   // Chat with medical AI
   chat: (message, conversationId = null) => 
-    apiClient.post('/ai/chat', { message, conversationId }),
+    apiClient.post('/ai/chat', { message, conversationHistory: conversationId }),
   
   // Analyze medical report
   analyzeReport: (reportId) => 

@@ -9,6 +9,7 @@ const ReportUploadPage = () => {
     const [uploading, setUploading] = useState(false)
     const [uploadProgress, setUploadProgress] = useState(0)
     const [uploadStatus, setUploadStatus] = useState(null) // 'success' | 'error'
+    const [uploadErrorMessage, setUploadErrorMessage] = useState('')
     const [patients, setPatients] = useState([])
     const [loadingPatients, setLoadingPatients] = useState(true)
 
@@ -110,12 +111,15 @@ const ReportUploadPage = () => {
             })
 
             setUploadStatus('success')
+            setUploadErrorMessage('')
             setTimeout(() => {
                 navigate('/reports')
             }, 2000)
         } catch (error) {
             console.error('Error uploading report:', error)
             setUploadStatus('error')
+            const backendMessage = error?.response?.data?.error || error?.response?.data?.message
+            setUploadErrorMessage(backendMessage || 'Please try again or contact support')
         } finally {
             setUploading(false)
         }
@@ -294,7 +298,7 @@ const ReportUploadPage = () => {
                             <AlertCircle className="w-6 h-6 text-red-600 mr-3" />
                             <div>
                                 <p className="font-medium text-red-900">Upload Failed</p>
-                                <p className="text-sm text-red-700">Please try again or contact support</p>
+                                <p className="text-sm text-red-700">{uploadErrorMessage || 'Please try again or contact support'}</p>
                             </div>
                         </div>
                     )}

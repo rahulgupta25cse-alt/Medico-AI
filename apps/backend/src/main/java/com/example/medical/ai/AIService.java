@@ -25,11 +25,13 @@ public class AIService {
     }
 
     public Map<String, Object> analyzeReport(UUID reportId) {
-        return callEndpoint("/ocr/analyze-report", Map.of("report_id", reportId.toString()));
+        return callEndpoint("/ocr/analyze", Map.of("report_id", reportId.toString()));
     }
 
     public Map<String, Object> chat(UUID patientId, String question) {
         Map<String, Object> aiResponse = callEndpoint("/chat", Map.of(
+            "message", question,
+            "context", Map.of("patient_id", patientId != null ? patientId.toString() : ""),
             "patient_id", patientId != null ? patientId.toString() : "",
             "question", question
         ));
@@ -38,7 +40,7 @@ public class AIService {
         // AI service returns: { "answer": "...", "citations": [...], "safety_banner": "...", "model_version": "..." }
         // Frontend expects: { "response": "..." }
         return Map.of(
-            "response", aiResponse.getOrDefault("answer", "I'm sorry, I couldn't process that request."),
+            "response", aiResponse.getOrDefault("answer", aiResponse.getOrDefault("response", "I'm sorry, I couldn't process that request.")),
             "citations", aiResponse.getOrDefault("citations", List.of()),
             "safetyBanner", aiResponse.getOrDefault("safety_banner", "")
         );

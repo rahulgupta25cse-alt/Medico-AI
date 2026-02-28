@@ -1,6 +1,7 @@
 import axios from 'axios'
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080'
+const authBypassEnabled = import.meta.env.VITE_DISABLE_AUTH === 'true'
 
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
@@ -31,7 +32,9 @@ apiClient.interceptors.response.use(
       // Token expired or invalid - redirect to login
       localStorage.removeItem('token')
       localStorage.removeItem('user')
-      window.location.href = '/login'
+      if (!authBypassEnabled) {
+        window.location.href = '/login'
+      }
     }
     return Promise.reject(error)
   }

@@ -2,6 +2,7 @@ package com.example.medical.report;
 
 import com.example.medical.doctor.Doctor;
 import com.example.medical.doctor.DoctorRepository;
+import com.example.medical.common.DoctorStatus;
 import com.example.medical.security.JwtAuthenticationDetails;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -80,8 +81,25 @@ public class ReportController {
                  return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "User email not found in token"));
             }
 
-            Doctor doctor = doctorRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("Current user is not a registered doctor. Please contact admin."));
+            final String authenticatedEmail = email;
+
+            Doctor doctor = doctorRepository.findByEmail(authenticatedEmail)
+                .orElseGet(() -> {
+                    Doctor newDoctor = new Doctor();
+                    String localPart = authenticatedEmail.contains("@") ? authenticatedEmail.substring(0, authenticatedEmail.indexOf('@')) : authenticatedEmail;
+                    String normalized = localPart.replace('.', ' ').replace('_', ' ').trim();
+                    String[] nameParts = normalized.isBlank() ? new String[0] : normalized.split("\\s+");
+
+                    String firstName = nameParts.length > 0 ? capitalize(nameParts[0]) : "Clinician";
+                    String lastName = nameParts.length > 1 ? capitalize(nameParts[1]) : "User";
+
+                    newDoctor.setFirstName(firstName);
+                    newDoctor.setLastName(lastName);
+                    newDoctor.setEmail(authenticatedEmail);
+                    newDoctor.setSpecialty("General Medicine");
+                    newDoctor.setStatus(DoctorStatus.ACTIVE);
+                    return doctorRepository.save(newDoctor);
+                });
 
             UUID patientId = UUID.fromString(patientIdStr);
 
@@ -202,5 +220,12 @@ public class ReportController {
         }
         
         return response;
+    }
+
+    private String capitalize(String value) {
+        if (value == null || value.isBlank()) {
+            return value;
+        }
+        return value.substring(0, 1).toUpperCase() + value.substring(1).toLowerCase();
     }
 }

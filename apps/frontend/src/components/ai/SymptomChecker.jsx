@@ -65,8 +65,17 @@ export default function SymptomChecker({ patientId, onAnalysisComplete }) {
         }
       })
 
-      const data = response.data
-      setAnalysis(data)
+      // Normalise: backend may return probability instead of confidence
+      const raw = response.data
+      const normalised = {
+        ...raw,
+        conditions: (raw.conditions || []).map(c => ({
+          name: c.name,
+          confidence: c.confidence ?? c.probability ?? 0,
+          description: c.description || c.detail || ''
+        }))
+      }
+      setAnalysis(normalised)
 
       if (onAnalysisComplete) {
         onAnalysisComplete(data)

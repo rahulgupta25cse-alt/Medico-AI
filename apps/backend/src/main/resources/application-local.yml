@@ -3,26 +3,15 @@ spring:
     url: jdbc:postgresql://localhost:5432/medical
     username: medical_user
     password: change_me
-    driver-class-name: org.postgresql.Driver
-    hikari:
-      connection-timeout: 30000
-      idle-timeout: 600000
-      max-lifetime: 1800000
-      maximum-pool-size: 10
   jpa:
-    database: postgresql
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: update
-      naming:
-        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     show-sql: true
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
-        jdbc:
-          time_zone: UTC
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
   kafka:
     bootstrap-servers: localhost:9092
     producer:
@@ -36,7 +25,7 @@ spring:
       max-file-size: 50MB
       max-request-size: 50MB
       file-size-threshold: 2KB
-  
+
 server:
   port: 8080
 
@@ -63,12 +52,5 @@ management:
 
 logging:
   level:
-    org.springframework: INFO
-    org.hibernate.SQL: WARN
-    com.example.medical: DEBUG
-    AUDIT: INFO
-  pattern:
-    console: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
-    file: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
-  file:
-    name: logs/application.log
+    com.medicalassistant: DEBUG
+    org.springframework.kafka: INFO

@@ -16,7 +16,8 @@ const LoginPage = () => {
     setLoading(true)
 
     try {
-      await login(email, password)
+      const normalizedEmail = email.trim().toLowerCase()
+      await login(normalizedEmail, password)
       navigate('/dashboard')
     } catch (err) {
       setError(err.response?.data?.message || 'Invalid email or password')
@@ -81,7 +82,7 @@ const LoginPage = () => {
 
         <div className="mt-6 text-center text-sm text-gray-600">
           <p>Test Credentials:</p>
-          <p className="mt-1">Email: doctor@hospital.com</p>
+          <p className="mt-1">Email: demo.clinician@hospital.com</p>
           <p>Password: SecurePass123!</p>
         </div>
       </div>

@@ -2,7 +2,12 @@ import { Navigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 
 const ProtectedRoute = ({ children, allowedRoles }) => {
+  const authBypassEnabled = import.meta.env.VITE_DISABLE_AUTH === 'true'
   const { isAuthenticated, user, loading } = useAuth()
+
+  if (authBypassEnabled) {
+    return children
+  }
 
   if (loading) {
     return (

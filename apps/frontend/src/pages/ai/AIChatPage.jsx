@@ -41,7 +41,7 @@ const AIChatPage = () => {
 
         try {
             // Call AI service
-            const response = await apiClient.post('/ai/chat', {
+            const raw = await apiClient.post('/ai/chat', {
                 message: inputMessage,
                 conversationHistory: messages.map(m => ({
                     role: m.type === 'user' ? 'user' : 'assistant',
@@ -49,21 +49,27 @@ const AIChatPage = () => {
                 }))
             })
 
-            // Add bot response
+            // api.js returns full Axios response, so data is in raw.data
+            const payload = raw?.data ?? raw
+            const aiText = payload?.response || payload?.answer || payload?.message || null
+
             const botMessage = {
-                id: messages.length + 2,
+                id: Date.now(),
                 type: 'bot',
-                content: response.data.response || 'I apologize, but I couldn\'t process that request. Please try again.',
+                content: aiText || 'I could not get a response. Please try again.',
                 timestamp: new Date()
             }
             setMessages(prev => [...prev, botMessage])
         } catch (error) {
-            console.error('Error sending message:', error)
-            // Add error message
+            console.error('AI chat error:', error)
+            const status = error?.response?.status
+            const serverMsg = error?.response?.data?.message || error?.response?.data?.error
             const errorMessage = {
-                id: messages.length + 2,
+                id: Date.now(),
                 type: 'bot',
-                content: 'I\'m sorry, I\'m having trouble connecting right now. Please try again later.',
+                content: status === 401
+                    ? 'Authentication error. Please refresh and log in again.'
+                    : serverMsg || 'Unable to reach the AI service. Please make sure it is running and try again.',
                 timestamp: new Date()
             }
             setMessages(prev => [...prev, errorMessage])

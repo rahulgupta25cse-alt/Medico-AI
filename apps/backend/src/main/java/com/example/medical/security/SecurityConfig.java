@@ -30,7 +30,7 @@ public class SecurityConfig {
             .cors().and()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
             .authorizeHttpRequests(authz -> authz
-                .requestMatchers("/auth/**", "/actuator/**", "/health", "/metrics").permitAll()
+                .requestMatchers("/auth/**", "/actuator/**", "/health", "/metrics", "/ai/**").permitAll()
                 .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
                 .anyRequest().authenticated()
             )
@@ -49,6 +49,7 @@ public class SecurityConfig {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
         config.addAllowedOrigin("http://localhost:3000");
+        config.addAllowedOrigin("http://localhost:5173");
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
 

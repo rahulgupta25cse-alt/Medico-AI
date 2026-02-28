@@ -39,11 +39,11 @@ export const useSymptomChecker = () => {
     try {
       // Call backend API
       const response = await apiClient.post(
-        '/ai/check-symptoms',
+        '/ai/predict/symptoms',
         {
-          symptomIds,
-          userId: options.userId,
-          timestamp: new Date().toISOString()
+          symptoms: symptomIds,
+          demographics: options.demographics || {},
+          vitals: options.vitals || {}
         },
         {
           timeout: 30000
@@ -51,14 +51,17 @@ export const useSymptomChecker = () => {
       )
 
       // Format and validate predictions
-      const formattedPredictions = formatPredictions(response.data.predictions)
+      const rawConditions = response.data?.conditions || []
+      const formattedPredictions = formatPredictions(rawConditions)
       setPredictions(formattedPredictions)
       setIsLoading(false)
 
       return {
         predictions: formattedPredictions,
-        confidence: response.data.confidence,
-        analysisId: response.data.analysisId
+        confidence: response.data?.confidence,
+        analysisId: response.data?.analysisId,
+        urgency: response.data?.urgency,
+        recommendations: response.data?.recommendations || []
       }
     } catch (err) {
       const message = parseError(err)
@@ -77,8 +80,8 @@ export const useSymptomChecker = () => {
     return rawPredictions.map((prediction) => ({
       diseaseId: prediction.disease_id || prediction.id,
       diseaseName: prediction.disease_name || prediction.name,
-      confidence: parseFloat(prediction.confidence) || 0,
-      severity: getSeverity(prediction.confidence),
+      confidence: parseFloat(prediction.confidence ?? prediction.probability ?? 0) || 0,
+      severity: getSeverity(parseFloat(prediction.confidence ?? prediction.probability ?? 0) || 0),
       description: prediction.description || '',
       matchingSymptoms: prediction.matching_symptoms || [],
       whenToSeeDoctorText: getWhenToSeeDoctorText(
