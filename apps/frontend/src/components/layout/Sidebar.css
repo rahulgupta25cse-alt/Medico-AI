@@ -1,0 +1,220 @@
+/* Sidebar Styles */
+
+.sidebar-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 39;
+    display: none;
+}
+
+.sidebar {
+    width: 280px;
+    background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%);
+    border-right: 1px solid rgba(148, 163, 184, 0.1);
+    height: calc(100vh - 70px);
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    left: 0;
+    top: 70px;
+    overflow-y: auto;
+    transition: transform 0.3s ease;
+    z-index: 40;
+}
+
+/* Sidebar scroll */
+.sidebar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+    background: rgba(71, 85, 105, 0.1);
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    background: rgba(71, 85, 105, 0.3);
+    border-radius: 3px;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+    background: rgba(71, 85, 105, 0.5);
+}
+
+/* Close Button */
+.sidebar-close {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #cbd5e1;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+/* Navigation */
+.sidebar-nav {
+    flex: 1;
+    padding: 1.5rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.sidebar-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    width: 100%;
+    padding: 0.875rem 1.5rem;
+    background: none;
+    border: none;
+    color: #cbd5e1;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.95rem;
+    font-weight: 500;
+    text-align: left;
+    position: relative;
+}
+
+.sidebar-item:hover {
+    background: rgba(6, 182, 212, 0.1);
+    color: #06b6d4;
+    padding-left: 1.75rem;
+}
+
+.sidebar-item.active {
+    background: linear-gradient(90deg, rgba(6, 182, 212, 0.2) 0%, transparent 100%);
+    color: #06b6d4;
+    border-right: 3px solid #06b6d4;
+}
+
+.sidebar-item.active::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: linear-gradient(180deg, #06b6d4 0%, #0ea5e9 100%);
+}
+
+.sidebar-item.highlight {
+    background: linear-gradient(90deg, rgba(239, 68, 68, 0.15) 0%, transparent 100%);
+    color: #fca5a5;
+    margin: 0.5rem 0.5rem;
+    border-radius: 8px;
+}
+
+.sidebar-item.highlight:hover {
+    background: linear-gradient(90deg, rgba(239, 68, 68, 0.25) 0%, transparent 100%);
+    color: #ef4444;
+}
+
+.expand-icon {
+    margin-left: auto;
+    transition: transform 0.3s ease;
+}
+
+.expand-icon.open {
+    transform: rotate(180deg);
+}
+
+/* Submenu */
+.submenu {
+    display: flex;
+    flex-direction: column;
+    background: rgba(71, 85, 105, 0.2);
+    margin: 0.25rem 0.5rem;
+    border-radius: 8px;
+    overflow: hidden;
+    animation: slidedown 0.3s ease;
+}
+
+@keyframes slidedown {
+    from {
+        opacity: 0;
+        max-height: 0;
+    }
+    to {
+        opacity: 1;
+        max-height: 500px;
+    }
+}
+
+.submenu-item {
+    padding: 0.75rem 1.5rem 0.75rem 3.5rem;
+    background: none;
+    border: none;
+    color: #94a3b8;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.875rem;
+    text-align: left;
+}
+
+.submenu-item:hover {
+    color: #06b6d4;
+    background: rgba(6, 182, 212, 0.1);
+}
+
+.submenu-item.active {
+    color: #06b6d4;
+    background: rgba(6, 182, 212, 0.2);
+    font-weight: 600;
+}
+
+/* Footer */
+.sidebar-footer {
+    border-top: 1px solid rgba(148, 163, 184, 0.1);
+    padding: 1.5rem;
+    text-align: center;
+}
+
+.version-info {
+    font-size: 0.75rem;
+}
+
+.version-info p {
+    margin: 0.25rem 0;
+    color: #64748b;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .sidebar {
+        position: fixed;
+        left: -280px;
+        top: 70px;
+        height: calc(100vh - 70px);
+        z-index: 40;
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .sidebar-overlay {
+        display: block;
+    }
+
+    .sidebar-close {
+        display: block;
+    }
+}
+
+/* Tablet */
+@media (max-width: 1024px) {
+    .sidebar {
+        width: 240px;
+    }
+
+    .sidebar-item {
+        padding: 0.75rem 1rem;
+    }
+
+    .submenu-item {
+        padding-left: 3rem;
+    }
+}

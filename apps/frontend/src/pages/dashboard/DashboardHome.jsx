@@ -3,9 +3,11 @@ import { Link } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import apiClient from '../../services/api'
 import {
-    Users, FileText, Activity, AlertCircle,
-    TrendingUp, Calendar, Clock, CheckCircle
+    Users, FileText, Activity,
+    TrendingUp, Calendar
 } from 'lucide-react'
+import HealthDashboardCards from '../../components/features/HealthDashboardCards'
+import MedicineSuggestion from '../../components/features/MedicineSuggestion'
 
 const DashboardHome = () => {
     const { user } = useAuth()
@@ -17,6 +19,26 @@ const DashboardHome = () => {
     })
     const [recentPatients, setRecentPatients] = useState([])
     const [loading, setLoading] = useState(true)
+    const suggestedMedicines = [
+        {
+            name: 'Paracetamol 500mg',
+            type: 'Pain Relief',
+            dosage: '1 tablet',
+            frequency: 'Every 6-8 hours',
+            rating: 4,
+            sideEffects: ['Nausea', 'Dizziness'],
+            newProduct: false
+        },
+        {
+            name: 'Cetirizine 10mg',
+            type: 'Antihistamine',
+            dosage: '1 tablet',
+            frequency: 'Once daily',
+            rating: 5,
+            sideEffects: ['Dry mouth', 'Drowsiness'],
+            newProduct: true
+        }
+    ]
 
     useEffect(() => {
         fetchDashboardData()
@@ -78,18 +100,19 @@ const DashboardHome = () => {
     }
 
     return (
-        <div className="min-h-screen bg-gray-50">
-            {/* Header */}
-            <div className="bg-white shadow">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-                    <h1 className="text-3xl font-bold text-gray-900">
-                        Welcome back, {user?.email?.split('@')[0] || 'Doctor'}
-                    </h1>
-                    <p className="text-gray-600 mt-1">Here's what's happening with your patients today</p>
-                </div>
-            </div>
+        <div className="space-y-8">
+            <header className="rounded-2xl border border-slate-700 bg-slate-800/60 p-6 backdrop-blur-md">
+                <h1 className="text-3xl font-bold text-slate-100">
+                    Welcome back, {user?.email?.split('@')[0] || 'Doctor'}
+                </h1>
+                <p className="mt-1 text-slate-400">Real-time clinical overview and AI-powered patient support</p>
+            </header>
 
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <section>
+                <HealthDashboardCards />
+            </section>
+
+            <section>
                 {/* Stats Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                     <StatCard
@@ -119,48 +142,58 @@ const DashboardHome = () => {
                         color="bg-purple-500"
                     />
                 </div>
+            </section>
 
                 {/* Quick Actions */}
-                <div className="bg-white rounded-lg shadow-md p-6 mb-8">
-                    <h2 className="text-xl font-bold text-gray-900 mb-4">Quick Actions</h2>
+                <div className="rounded-xl border border-slate-700 bg-slate-800/60 p-6 mb-8">
+                    <h2 className="text-xl font-bold text-slate-100 mb-4">Quick Actions</h2>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <Link
                             to="/patients"
-                            className="flex items-center p-4 border-2 border-gray-200 rounded-lg hover:border-primary-500 hover:bg-primary-50 transition-colors"
+                            className="flex items-center p-4 border border-slate-700 rounded-lg hover:border-cyan-500 hover:bg-slate-700/40 transition-colors"
                         >
                             <Users className="w-6 h-6 text-primary-600 mr-3" />
                             <div>
-                                <p className="font-semibold text-gray-900">View Patients</p>
-                                <p className="text-sm text-gray-600">Manage patient records</p>
+                                <p className="font-semibold text-slate-100">View Patients</p>
+                                <p className="text-sm text-slate-400">Manage patient records</p>
                             </div>
                         </Link>
                         <Link
                             to="/reports/upload"
-                            className="flex items-center p-4 border-2 border-gray-200 rounded-lg hover:border-primary-500 hover:bg-primary-50 transition-colors"
+                            className="flex items-center p-4 border border-slate-700 rounded-lg hover:border-cyan-500 hover:bg-slate-700/40 transition-colors"
                         >
                             <FileText className="w-6 h-6 text-primary-600 mr-3" />
                             <div>
-                                <p className="font-semibold text-gray-900">Upload Report</p>
-                                <p className="text-sm text-gray-600">Add new medical reports</p>
+                                <p className="font-semibold text-slate-100">Upload Report</p>
+                                <p className="text-sm text-slate-400">Add new medical reports</p>
                             </div>
                         </Link>
                         <Link
                             to="/ai/symptom-checker"
-                            className="flex items-center p-4 border-2 border-gray-200 rounded-lg hover:border-primary-500 hover:bg-primary-50 transition-colors"
+                            className="flex items-center p-4 border border-slate-700 rounded-lg hover:border-cyan-500 hover:bg-slate-700/40 transition-colors"
                         >
                             <Activity className="w-6 h-6 text-primary-600 mr-3" />
                             <div>
-                                <p className="font-semibold text-gray-900">AI Symptom Checker</p>
-                                <p className="text-sm text-gray-600">Analyze symptoms</p>
+                                <p className="font-semibold text-slate-100">AI Symptom Checker</p>
+                                <p className="text-sm text-slate-400">Analyze symptoms</p>
                             </div>
                         </Link>
                     </div>
                 </div>
 
+                <section className="mb-8">
+                    <h2 className="text-xl font-bold text-slate-100 mb-4">Medicine Recommendations</h2>
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                        {suggestedMedicines.map((medicine) => (
+                            <MedicineSuggestion key={medicine.name} medicine={medicine} />
+                        ))}
+                    </div>
+                </section>
+
                 {/* Recent Patients */}
-                <div className="bg-white rounded-lg shadow-md p-6">
+                <div className="rounded-xl border border-slate-700 bg-slate-800/60 p-6">
                     <div className="flex items-center justify-between mb-4">
-                        <h2 className="text-xl font-bold text-gray-900">Recent Patients</h2>
+                        <h2 className="text-xl font-bold text-slate-100">Recent Patients</h2>
                         <Link to="/patients" className="text-primary-600 hover:text-primary-700 font-medium">
                             View All →
                         </Link>
@@ -170,42 +203,42 @@ const DashboardHome = () => {
                         <p className="text-gray-500 text-center py-8">No patients found</p>
                     ) : (
                         <div className="overflow-x-auto">
-                            <table className="min-w-full divide-y divide-gray-200">
-                                <thead className="bg-gray-50">
+                            <table className="min-w-full divide-y divide-slate-700">
+                                <thead className="bg-slate-900/50">
                                     <tr>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        <th className="px-6 py-3 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">
                                             Patient
                                         </th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        <th className="px-6 py-3 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">
                                             Gender
                                         </th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        <th className="px-6 py-3 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">
                                             Status
                                         </th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        <th className="px-6 py-3 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">
                                             Last Visit
                                         </th>
                                     </tr>
                                 </thead>
-                                <tbody className="bg-white divide-y divide-gray-200">
+                                <tbody className="bg-transparent divide-y divide-slate-700">
                                     {recentPatients.map((patient) => (
-                                        <tr key={patient.id} className="hover:bg-gray-50">
+                                        <tr key={patient.id} className="hover:bg-slate-700/40">
                                             <td className="px-6 py-4 whitespace-nowrap">
                                                 <div className="flex items-center">
-                                                    <div className="flex-shrink-0 h-10 w-10 bg-primary-100 rounded-full flex items-center justify-center">
+                                                    <div className="flex-shrink-0 h-10 w-10 bg-slate-700 rounded-full flex items-center justify-center">
                                                         <span className="text-primary-600 font-semibold">
                                                             {patient.firstName?.[0]}{patient.lastName?.[0]}
                                                         </span>
                                                     </div>
                                                     <div className="ml-4">
-                                                        <div className="text-sm font-medium text-gray-900">
+                                                        <div className="text-sm font-medium text-slate-100">
                                                             {patient.firstName} {patient.lastName}
                                                         </div>
-                                                        <div className="text-sm text-gray-500">{patient.email}</div>
+                                                        <div className="text-sm text-slate-400">{patient.email}</div>
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-400">
                                                 {patient.gender}
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap">
@@ -216,7 +249,7 @@ const DashboardHome = () => {
                                                     {patient.status}
                                                 </span>
                                             </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-400">
                                                 {patient.updatedAt ? new Date(patient.updatedAt).toLocaleDateString() : 'N/A'}
                                             </td>
                                         </tr>
@@ -226,7 +259,6 @@ const DashboardHome = () => {
                         </div>
                     )}
                 </div>
-            </div>
         </div>
     )
 }

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import apiClient from '../../services/api'
-import { FileText, Download, Eye, Trash2, Upload, Filter, Search } from 'lucide-react'
+import { FileText, Download, Eye, Trash2, Upload, Search } from 'lucide-react'
 
 const ReportsListPage = () => {
     const [reports, setReports] = useState([])
@@ -10,6 +10,17 @@ const ReportsListPage = () => {
     const [filterType, setFilterType] = useState('ALL')
     const [currentPage, setCurrentPage] = useState(0)
     const [totalPages, setTotalPages] = useState(0)
+
+    const filteredReports = reports.filter((report) => {
+        const typeMatch = filterType === 'ALL' || report.reportType === filterType
+        const search = searchTerm.trim().toLowerCase()
+        if (!search) return typeMatch
+
+        const title = (report.title || '').toLowerCase()
+        const patientName = (report.patientName || '').toLowerCase()
+        const description = (report.description || '').toLowerCase()
+        return typeMatch && (title.includes(search) || patientName.includes(search) || description.includes(search))
+    })
 
     useEffect(() => {
         fetchReports()
@@ -60,68 +71,64 @@ const ReportsListPage = () => {
     }
 
     return (
-        <div className="min-h-screen bg-gray-50">
-            {/* Header */}
-            <div className="bg-white shadow">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-                    <div className="flex items-center justify-between">
-                        <div>
-                            <h1 className="text-3xl font-bold text-gray-900">Medical Reports</h1>
-                            <p className="text-gray-600 mt-1">View and manage all medical reports</p>
+        <div className="space-y-6">
+            <header className="rounded-2xl border border-slate-700 bg-slate-800/60 p-6 backdrop-blur-md">
+                <div className="flex items-center justify-between">
+                    <div>
+                        <h1 className="text-3xl font-bold text-slate-100">Health Reports</h1>
+                        <p className="mt-1 text-slate-400">View and manage medical reports</p>
+                    </div>
+                    <Link
+                        to="/reports/upload"
+                        className="inline-flex items-center rounded-lg bg-gradient-to-r from-cyan-600 to-blue-600 px-4 py-2 text-sm font-medium text-white transition hover:shadow-lg hover:shadow-cyan-900/40"
+                    >
+                        <Upload className="w-5 h-5 mr-2" />
+                        Upload Report
+                    </Link>
+                </div>
+            </header>
+
+            {/* Search and Filter */}
+            <div className="rounded-xl border border-slate-700 bg-slate-800/60 p-6">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="md:col-span-2">
+                        <div className="relative">
+                            <input
+                                type="text"
+                                placeholder="Search reports by title, patient, or description..."
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                                className="w-full rounded-lg border border-slate-600 bg-slate-900/70 pl-10 pr-4 py-2 text-slate-100 placeholder-slate-500 focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+                            />
+                            <Search className="absolute left-3 top-2.5 w-5 h-5 text-slate-500" />
                         </div>
-                        <Link
-                            to="/reports/upload"
-                            className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
+                    </div>
+                    <div>
+                        <select
+                            value={filterType}
+                            onChange={(e) => setFilterType(e.target.value)}
+                            className="w-full rounded-lg border border-slate-600 bg-slate-900/70 px-4 py-2 text-slate-100 focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
                         >
-                            <Upload className="w-5 h-5 mr-2" />
-                            Upload Report
-                        </Link>
+                            <option value="ALL">All Types</option>
+                            <option value="LAB_RESULT">Lab Results</option>
+                            <option value="IMAGING">Imaging</option>
+                            <option value="CONSULTATION">Consultation</option>
+                            <option value="PRESCRIPTION">Prescription</option>
+                            <option value="OTHER">Other</option>
+                        </select>
                     </div>
                 </div>
             </div>
 
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-                {/* Search and Filter */}
-                <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div className="md:col-span-2">
-                            <div className="relative">
-                                <input
-                                    type="text"
-                                    placeholder="Search reports by title or patient..."
-                                    value={searchTerm}
-                                    onChange={(e) => setSearchTerm(e.target.value)}
-                                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                                />
-                                <Search className="absolute left-3 top-2.5 w-5 h-5 text-gray-400" />
-                            </div>
-                        </div>
-                        <div>
-                            <select
-                                value={filterType}
-                                onChange={(e) => setFilterType(e.target.value)}
-                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                            >
-                                <option value="ALL">All Types</option>
-                                <option value="LAB_RESULT">Lab Results</option>
-                                <option value="IMAGING">Imaging</option>
-                                <option value="CONSULTATION">Consultation</option>
-                                <option value="PRESCRIPTION">Prescription</option>
-                                <option value="OTHER">Other</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
                 {/* Reports Grid */}
-                {reports.length === 0 ? (
-                    <div className="bg-white rounded-lg shadow-md p-12 text-center">
-                        <FileText className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-                        <h3 className="text-lg font-medium text-gray-900 mb-2">No reports found</h3>
-                        <p className="text-gray-500 mb-4">Get started by uploading your first medical report</p>
+                {filteredReports.length === 0 ? (
+                    <div className="rounded-xl border border-slate-700 bg-slate-800/60 p-12 text-center">
+                        <FileText className="w-16 h-16 text-slate-500 mx-auto mb-4" />
+                        <h3 className="text-lg font-medium text-slate-100 mb-2">No reports found</h3>
+                        <p className="text-slate-400 mb-4">Try adjusting filters or upload a new report.</p>
                         <Link
                             to="/reports/upload"
-                            className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700"
+                            className="inline-flex items-center rounded-lg bg-gradient-to-r from-cyan-600 to-blue-600 px-4 py-2 text-sm font-medium text-white transition hover:shadow-lg hover:shadow-cyan-900/40"
                         >
                             <Upload className="w-5 h-5 mr-2" />
                             Upload Report
@@ -129,8 +136,8 @@ const ReportsListPage = () => {
                     </div>
                 ) : (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {reports.map((report) => (
-                            <div key={report.id} className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow overflow-hidden">
+                        {filteredReports.map((report) => (
+                            <div key={report.id} className="rounded-xl border border-slate-700 bg-slate-800/70 hover:border-cyan-500/50 transition-shadow overflow-hidden">
                                 {/* Report Header */}
                                 <div className="p-6">
                                     <div className="flex items-start justify-between mb-4">
@@ -142,26 +149,26 @@ const ReportsListPage = () => {
                                         <FileText className="w-8 h-8 text-primary-600" />
                                     </div>
 
-                                    <h3 className="text-lg font-semibold text-gray-900 mb-2 line-clamp-2">
+                                    <h3 className="text-lg font-semibold text-slate-100 mb-2 line-clamp-2">
                                         {report.title || 'Untitled Report'}
                                     </h3>
 
-                                    <p className="text-sm text-gray-600 mb-4 line-clamp-2">
+                                    <p className="text-sm text-slate-400 mb-4 line-clamp-2">
                                         {report.description || 'No description available'}
                                     </p>
 
-                                    <div className="space-y-2 text-sm text-gray-500">
+                                    <div className="space-y-2 text-sm text-slate-400">
                                         <div className="flex items-center">
-                                            <span className="font-medium mr-2">Patient:</span>
+                                            <span className="font-medium mr-2 text-slate-300">Patient:</span>
                                             <span>{report.patientName || report.patientId}</span>
                                         </div>
                                         <div className="flex items-center">
-                                            <span className="font-medium mr-2">Date:</span>
+                                            <span className="font-medium mr-2 text-slate-300">Date:</span>
                                             <span>{report.uploadedAt ? new Date(report.uploadedAt).toLocaleDateString() : 'N/A'}</span>
                                         </div>
                                         {report.analysisStatus && (
                                             <div className="flex items-center">
-                                                <span className="font-medium mr-2">Analysis:</span>
+                                                <span className="font-medium mr-2 text-slate-300">Analysis:</span>
                                                 <span className={`px-2 py-0.5 text-xs rounded-full ${report.analysisStatus === 'COMPLETED'
                                                         ? 'bg-green-100 text-green-800'
                                                         : 'bg-yellow-100 text-yellow-800'
@@ -174,18 +181,18 @@ const ReportsListPage = () => {
                                 </div>
 
                                 {/* Report Actions */}
-                                <div className="bg-gray-50 px-6 py-4 flex items-center justify-between border-t border-gray-200">
+                                <div className="bg-slate-900/60 px-6 py-4 flex items-center justify-between border-t border-slate-700">
                                     <div className="flex gap-2">
                                         <button
                                             onClick={() => window.open(`/api/reports/${report.id}/download`, '_blank')}
-                                            className="text-primary-600 hover:text-primary-800"
+                                            className="text-cyan-400 hover:text-cyan-300"
                                             title="Download"
                                         >
                                             <Download className="w-5 h-5" />
                                         </button>
                                         <Link
                                             to={`/reports/${report.id}`}
-                                            className="text-blue-600 hover:text-blue-800"
+                                            className="text-blue-400 hover:text-blue-300"
                                             title="View Details"
                                         >
                                             <Eye className="w-5 h-5" />
@@ -210,23 +217,22 @@ const ReportsListPage = () => {
                         <button
                             onClick={() => setCurrentPage(prev => Math.max(0, prev - 1))}
                             disabled={currentPage === 0}
-                            className="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="px-4 py-2 border border-slate-600 rounded-lg text-sm font-medium text-slate-300 bg-slate-800 hover:bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                             Previous
                         </button>
-                        <span className="text-sm text-gray-700">
+                        <span className="text-sm text-slate-300">
                             Page {currentPage + 1} of {totalPages}
                         </span>
                         <button
                             onClick={() => setCurrentPage(prev => Math.min(totalPages - 1, prev + 1))}
                             disabled={currentPage === totalPages - 1}
-                            className="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="px-4 py-2 border border-slate-600 rounded-lg text-sm font-medium text-slate-300 bg-slate-800 hover:bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                             Next
                         </button>
                     </div>
                 )}
-            </div>
         </div>
     )
 }

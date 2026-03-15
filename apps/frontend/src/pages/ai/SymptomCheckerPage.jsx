@@ -1,18 +1,14 @@
-import SymptomCheckerComponent from '../../components/ai/SymptomChecker'
+import SymptomCheckerComponent from '../../components/features/SymptomChecker'
 
 const SymptomCheckerPage = () => {
     return (
-        <div className="min-h-screen bg-gray-50">
-            {/* Header */}
-            <div className="bg-white shadow">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-                    <h1 className="text-3xl font-bold text-gray-900">AI Symptom Checker</h1>
-                    <p className="text-gray-600 mt-1">Analyze symptoms and get AI-powered health insights</p>
-                </div>
-            </div>
+        <div className="space-y-6">
+            <header className="rounded-2xl border border-slate-700 bg-slate-800/60 p-6 backdrop-blur-md">
+                <h1 className="text-3xl font-bold text-slate-100">AI Symptom Checker</h1>
+                <p className="mt-1 text-slate-400">Analyze symptoms and get AI-powered health insights.</p>
+            </header>
 
-            {/* Content */}
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div>
                 <SymptomCheckerComponent />
             </div>
         </div>

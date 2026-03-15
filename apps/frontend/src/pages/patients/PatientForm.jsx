@@ -91,83 +91,83 @@ const PatientForm = () => {
         }
     }
 
+    const inputCls = (hasError) =>
+        `w-full px-4 py-2 rounded-lg bg-slate-900/60 border ${
+            hasError ? 'border-red-500' : 'border-slate-700'
+        } text-slate-200 placeholder:text-slate-500 focus:ring-2 focus:ring-cyan-500 focus:border-transparent`
+
     return (
-        <div className="min-h-screen bg-gray-50">
+        <div className="space-y-6">
             {/* Header */}
-            <div className="bg-white shadow">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-                    <div className="flex items-center">
-                        <button
-                            onClick={() => navigate('/patients')}
-                            className="mr-4 text-gray-600 hover:text-gray-900"
-                        >
-                            <ArrowLeft className="w-6 h-6" />
-                        </button>
-                        <div>
-                            <h1 className="text-3xl font-bold text-gray-900">
-                                {isEdit ? 'Edit Patient' : 'Add New Patient'}
-                            </h1>
-                            <p className="text-gray-600 mt-1">
-                                {isEdit ? 'Update patient information' : 'Enter patient details'}
-                            </p>
-                        </div>
+            <header className="rounded-2xl border border-slate-700 bg-slate-800/60 p-6 backdrop-blur-md">
+                <div className="flex items-center">
+                    <button
+                        onClick={() => navigate('/patients')}
+                        className="mr-4 text-slate-400 hover:text-slate-100 transition-colors"
+                    >
+                        <ArrowLeft className="w-6 h-6" />
+                    </button>
+                    <div>
+                        <h1 className="text-3xl font-bold text-slate-100">
+                            {isEdit ? 'Edit Patient' : 'Add New Patient'}
+                        </h1>
+                        <p className="text-slate-400 mt-1">
+                            {isEdit ? 'Update patient information' : 'Enter patient details'}
+                        </p>
                     </div>
                 </div>
-            </div>
+            </header>
 
-            <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-                <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-md p-6">
+            <div>
+                <form onSubmit={handleSubmit} className="rounded-xl border border-slate-700 bg-slate-800/60 p-8 backdrop-blur-md space-y-8">
                     {/* Personal Information */}
-                    <div className="mb-8">
-                        <h2 className="text-xl font-bold text-gray-900 mb-4">Personal Information</h2>
+                    <div>
+                        <h2 className="text-xl font-bold text-slate-100 mb-6 pb-2 border-b border-slate-700">Personal Information</h2>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
-                                    First Name <span className="text-red-500">*</span>
+                                <label className="block text-sm font-medium text-slate-400 mb-2">
+                                    First Name <span className="text-red-400">*</span>
                                 </label>
                                 <input
                                     type="text"
                                     name="firstName"
                                     value={formData.firstName}
                                     onChange={handleChange}
-                                    className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent ${errors.firstName ? 'border-red-500' : 'border-gray-300'
-                                        }`}
+                                    className={inputCls(errors.firstName)}
                                 />
-                                {errors.firstName && <p className="text-red-500 text-sm mt-1">{errors.firstName}</p>}
+                                {errors.firstName && <p className="text-red-400 text-sm mt-1">{errors.firstName}</p>}
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
-                                    Last Name <span className="text-red-500">*</span>
+                                <label className="block text-sm font-medium text-slate-400 mb-2">
+                                    Last Name <span className="text-red-400">*</span>
                                 </label>
                                 <input
                                     type="text"
                                     name="lastName"
                                     value={formData.lastName}
                                     onChange={handleChange}
-                                    className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent ${errors.lastName ? 'border-red-500' : 'border-gray-300'
-                                        }`}
+                                    className={inputCls(errors.lastName)}
                                 />
-                                {errors.lastName && <p className="text-red-500 text-sm mt-1">{errors.lastName}</p>}
+                                {errors.lastName && <p className="text-red-400 text-sm mt-1">{errors.lastName}</p>}
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
-                                    Email <span className="text-red-500">*</span>
+                                <label className="block text-sm font-medium text-slate-400 mb-2">
+                                    Email <span className="text-red-400">*</span>
                                 </label>
                                 <input
                                     type="email"
                                     name="email"
                                     value={formData.email}
                                     onChange={handleChange}
-                                    className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent ${errors.email ? 'border-red-500' : 'border-gray-300'
-                                        }`}
+                                    className={inputCls(errors.email)}
                                 />
-                                {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
+                                {errors.email && <p className="text-red-400 text-sm mt-1">{errors.email}</p>}
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <label className="block text-sm font-medium text-slate-400 mb-2">
                                     Phone
                                 </label>
                                 <input
@@ -175,34 +175,33 @@ const PatientForm = () => {
                                     name="phone"
                                     value={formData.phone}
                                     onChange={handleChange}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                                    className={inputCls(false)}
                                 />
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
-                                    Date of Birth <span className="text-red-500">*</span>
+                                <label className="block text-sm font-medium text-slate-400 mb-2">
+                                    Date of Birth <span className="text-red-400">*</span>
                                 </label>
                                 <input
                                     type="date"
                                     name="dateOfBirth"
                                     value={formData.dateOfBirth}
                                     onChange={handleChange}
-                                    className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent ${errors.dateOfBirth ? 'border-red-500' : 'border-gray-300'
-                                        }`}
+                                    className={inputCls(errors.dateOfBirth)}
                                 />
-                                {errors.dateOfBirth && <p className="text-red-500 text-sm mt-1">{errors.dateOfBirth}</p>}
+                                {errors.dateOfBirth && <p className="text-red-400 text-sm mt-1">{errors.dateOfBirth}</p>}
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <label className="block text-sm font-medium text-slate-400 mb-2">
                                     Gender
                                 </label>
                                 <select
                                     name="gender"
                                     value={formData.gender}
                                     onChange={handleChange}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                                    className={inputCls(false)}
                                 >
                                     <option value="MALE">Male</option>
                                     <option value="FEMALE">Female</option>
@@ -211,14 +210,14 @@ const PatientForm = () => {
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <label className="block text-sm font-medium text-slate-400 mb-2">
                                     Blood Group
                                 </label>
                                 <select
                                     name="bloodGroup"
                                     value={formData.bloodGroup}
                                     onChange={handleChange}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                                    className={inputCls(false)}
                                 >
                                     <option value="">Select Blood Group</option>
                                     <option value="A+">A+</option>
@@ -235,11 +234,11 @@ const PatientForm = () => {
                     </div>
 
                     {/* Address Information */}
-                    <div className="mb-8">
-                        <h2 className="text-xl font-bold text-gray-900 mb-4">Address Information</h2>
+                    <div>
+                        <h2 className="text-xl font-bold text-slate-100 mb-6 pb-2 border-b border-slate-700">Address Information</h2>
                         <div className="grid grid-cols-1 gap-6">
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <label className="block text-sm font-medium text-slate-400 mb-2">
                                     Address
                                 </label>
                                 <input
@@ -247,13 +246,13 @@ const PatientForm = () => {
                                     name="address"
                                     value={formData.address}
                                     onChange={handleChange}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                                    className={inputCls(false)}
                                 />
                             </div>
 
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                                    <label className="block text-sm font-medium text-slate-400 mb-2">
                                         City
                                     </label>
                                     <input
@@ -261,12 +260,12 @@ const PatientForm = () => {
                                         name="city"
                                         value={formData.city}
                                         onChange={handleChange}
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                                        className={inputCls(false)}
                                     />
                                 </div>
 
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                                    <label className="block text-sm font-medium text-slate-400 mb-2">
                                         State
                                     </label>
                                     <input
@@ -274,12 +273,12 @@ const PatientForm = () => {
                                         name="state"
                                         value={formData.state}
                                         onChange={handleChange}
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                                        className={inputCls(false)}
                                     />
                                 </div>
 
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                                    <label className="block text-sm font-medium text-slate-400 mb-2">
                                         ZIP Code
                                     </label>
                                     <input
@@ -287,7 +286,7 @@ const PatientForm = () => {
                                         name="zipCode"
                                         value={formData.zipCode}
                                         onChange={handleChange}
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                                        className={inputCls(false)}
                                     />
                                 </div>
                             </div>
@@ -295,11 +294,11 @@ const PatientForm = () => {
                     </div>
 
                     {/* Emergency Contact */}
-                    <div className="mb-8">
-                        <h2 className="text-xl font-bold text-gray-900 mb-4">Emergency Contact</h2>
+                    <div>
+                        <h2 className="text-xl font-bold text-slate-100 mb-6 pb-2 border-b border-slate-700">Emergency Contact</h2>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <label className="block text-sm font-medium text-slate-400 mb-2">
                                     Contact Name
                                 </label>
                                 <input
@@ -307,12 +306,12 @@ const PatientForm = () => {
                                     name="emergencyContact"
                                     value={formData.emergencyContact}
                                     onChange={handleChange}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                                    className={inputCls(false)}
                                 />
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <label className="block text-sm font-medium text-slate-400 mb-2">
                                     Contact Phone
                                 </label>
                                 <input
@@ -320,18 +319,18 @@ const PatientForm = () => {
                                     name="emergencyPhone"
                                     value={formData.emergencyPhone}
                                     onChange={handleChange}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                                    className={inputCls(false)}
                                 />
                             </div>
                         </div>
                     </div>
 
                     {/* Medical Information */}
-                    <div className="mb-8">
-                        <h2 className="text-xl font-bold text-gray-900 mb-4">Medical Information</h2>
+                    <div>
+                        <h2 className="text-xl font-bold text-slate-100 mb-6 pb-2 border-b border-slate-700">Medical Information</h2>
                         <div className="grid grid-cols-1 gap-6">
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <label className="block text-sm font-medium text-slate-400 mb-2">
                                     Allergies
                                 </label>
                                 <textarea
@@ -339,13 +338,13 @@ const PatientForm = () => {
                                     value={formData.allergies}
                                     onChange={handleChange}
                                     rows="3"
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                                    className={inputCls(false)}
                                     placeholder="List any known allergies..."
                                 />
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <label className="block text-sm font-medium text-slate-400 mb-2">
                                     Medical History
                                 </label>
                                 <textarea
@@ -353,7 +352,7 @@ const PatientForm = () => {
                                     value={formData.medicalHistory}
                                     onChange={handleChange}
                                     rows="4"
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                                    className={inputCls(false)}
                                     placeholder="Enter relevant medical history..."
                                 />
                             </div>
@@ -361,11 +360,11 @@ const PatientForm = () => {
                     </div>
 
                     {/* Form Actions */}
-                    <div className="flex justify-end gap-4">
+                    <div className="flex justify-end gap-4 pt-2">
                         <button
                             type="button"
                             onClick={() => navigate('/patients')}
-                            className="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
+                            className="px-6 py-2 border border-slate-600 rounded-lg text-slate-300 hover:bg-slate-700/60 transition-colors"
                         >
                             <X className="w-5 h-5 inline mr-2" />
                             Cancel
@@ -373,7 +372,7 @@ const PatientForm = () => {
                         <button
                             type="submit"
                             disabled={loading}
-                            className="px-6 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="px-6 py-2 rounded-lg bg-gradient-to-r from-cyan-600 to-blue-600 text-white transition hover:shadow-lg hover:shadow-cyan-900/40 disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                             <Save className="w-5 h-5 inline mr-2" />
                             {loading ? 'Saving...' : isEdit ? 'Update Patient' : 'Add Patient'}

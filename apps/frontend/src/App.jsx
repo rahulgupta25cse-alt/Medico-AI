@@ -10,63 +10,63 @@ import ReportsListPage from './pages/reports/ReportsListPage'
 import AIChatPage from './pages/ai/AIChatPage'
 import PatientDetailPage from './pages/patients/PatientDetailPage'
 import ProtectedRoute from './components/common/ProtectedRoute'
-import MainLayout from './components/layout/MainLayout'
+import DashboardLayout from './components/layout/DashboardLayout'
 import DesignSystemShowcase from './components/DesignSystemShowcase'
 import SymptomCheckerPage from './pages/ai/SymptomCheckerPage'
 import SettingsPage from './pages/settings/SettingsPage'
-
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-
-const queryClient = new QueryClient()
+import EmergencyPage from './pages/emergency/EmergencyPage'
+import AnalyticsPage from './pages/analytics/AnalyticsPage'
+import LandingPage from './pages/landing/LandingPage'
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <Router>
-        <AuthProvider>
-          <Routes>
+    <Router>
+      <AuthProvider>
+        <Routes>
             {/* Public routes */}
+            <Route path="/" element={<LandingPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/design-system" element={<DesignSystemShowcase />} />
 
             {/* Protected routes with layout */}
             <Route
-              path="/"
               element={
                 <ProtectedRoute allowedRoles={['CLINICIAN', 'PATIENT', 'ADMIN']}>
-                  <MainLayout />
+                  <DashboardLayout />
                 </ProtectedRoute>
               }
             >
               {/* Dashboard */}
-              <Route index element={<Navigate to="/dashboard" replace />} />
-              <Route path="dashboard" element={<DashboardHome />} />
+              <Route path="/dashboard" element={<DashboardHome />} />
 
               {/* Patients */}
-              <Route path="patients" element={<PatientsPage />} />
-              <Route path="patients/new" element={<PatientForm />} />
-              <Route path="patients/:id" element={<PatientDetailPage />} />
-              <Route path="patients/:id/edit" element={<PatientForm />} />
-              <Route path="patient/dashboard" element={<PatientDashboard />} />
+              <Route path="/patients" element={<PatientsPage />} />
+              <Route path="/patients/new" element={<PatientForm />} />
+              <Route path="/patients/:id" element={<PatientDetailPage />} />
+              <Route path="/patients/:id/edit" element={<PatientForm />} />
+              <Route path="/patient/dashboard" element={<PatientDashboard />} />
 
               {/* Reports */}
-              <Route path="reports" element={<ReportsListPage />} />
-              <Route path="reports/upload" element={<ReportUploadPage />} />
+              <Route path="/reports" element={<ReportsListPage />} />
+              <Route path="/reports/upload" element={<ReportUploadPage />} />
 
               {/* AI Features */}
-              <Route path="ai/chat" element={<AIChatPage />} />
-              <Route path="ai/symptom-checker" element={<SymptomCheckerPage />} />
+              <Route path="/ai/chat" element={<AIChatPage />} />
+              <Route path="/ai/symptom-checker" element={<SymptomCheckerPage />} />
 
               {/* Settings */}
-              <Route path="settings" element={<SettingsPage />} />
+              <Route path="/settings" element={<SettingsPage />} />
+
+              {/* Additional Nav Pages */}
+              <Route path="/emergency" element={<EmergencyPage />} />
+              <Route path="/analytics" element={<AnalyticsPage />} />
             </Route>
 
             {/* Fallback */}
-            <Route path="*" element={<Navigate to="/login" replace />} />
-          </Routes>
-        </AuthProvider>
-      </Router>
-    </QueryClientProvider>
+            <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </AuthProvider>
+    </Router>
   )
 }
 

@@ -66,36 +66,34 @@ const PatientsPage = () => {
 
     if (loading) {
         return (
-            <div className="min-h-screen flex items-center justify-center">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
+            <div className="flex items-center justify-center py-24">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-cyan-400"></div>
             </div>
         )
     }
 
     return (
-        <div className="min-h-screen bg-gray-50">
+        <div className="space-y-6">
             {/* Header */}
-            <div className="bg-white shadow">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-                    <div className="flex items-center justify-between">
-                        <div>
-                            <h1 className="text-3xl font-bold text-gray-900">Patient Management</h1>
-                            <p className="text-gray-600 mt-1">Manage and view all patient records</p>
-                        </div>
-                        <Link
-                            to="/patients/new"
-                            className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
-                        >
-                            <Plus className="w-5 h-5 mr-2" />
-                            Add Patient
-                        </Link>
+            <header className="rounded-2xl border border-slate-700 bg-slate-800/60 p-6 backdrop-blur-md">
+                <div className="flex items-center justify-between">
+                    <div>
+                        <h1 className="text-3xl font-bold text-slate-100">Patient Management</h1>
+                        <p className="mt-1 text-slate-400">Manage and view all patient records</p>
                     </div>
+                    <Link
+                        to="/patients/new"
+                        className="inline-flex items-center rounded-lg bg-gradient-to-r from-cyan-600 to-blue-600 px-4 py-2 text-sm font-medium text-white transition hover:shadow-lg hover:shadow-cyan-900/40"
+                    >
+                        <Plus className="w-5 h-5 mr-2" />
+                        Add Patient
+                    </Link>
                 </div>
-            </div>
+            </header>
 
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div className="space-y-6">
                 {/* Search and Filter */}
-                <div className="bg-white rounded-lg shadow-md p-6 mb-6">
+                <div className="rounded-xl border border-slate-700 bg-slate-800/60 p-6 backdrop-blur-md">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div className="md:col-span-2">
                             <div className="relative">
@@ -105,16 +103,16 @@ const PatientsPage = () => {
                                     value={searchTerm}
                                     onChange={(e) => setSearchTerm(e.target.value)}
                                     onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
-                                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                                    className="w-full pl-10 pr-4 py-2 rounded-lg bg-slate-900/60 border border-slate-700 text-slate-200 placeholder:text-slate-500 focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
                                 />
-                                <Search className="absolute left-3 top-2.5 w-5 h-5 text-gray-400" />
+                                <Search className="absolute left-3 top-2.5 w-5 h-5 text-slate-500" />
                             </div>
                         </div>
                         <div className="flex gap-2">
                             <select
                                 value={filterStatus}
                                 onChange={(e) => setFilterStatus(e.target.value)}
-                                className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                                className="flex-1 px-4 py-2 rounded-lg bg-slate-900/60 border border-slate-700 text-slate-200 focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
                             >
                                 <option value="ALL">All Status</option>
                                 <option value="ACTIVE">Active</option>
@@ -122,7 +120,7 @@ const PatientsPage = () => {
                             </select>
                             <button
                                 onClick={handleSearch}
-                                className="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors"
+                                className="px-4 py-2 rounded-lg bg-gradient-to-r from-cyan-600 to-blue-600 text-white transition hover:shadow-lg hover:shadow-cyan-900/40"
                             >
                                 <Filter className="w-5 h-5" />
                             </button>
@@ -131,92 +129,93 @@ const PatientsPage = () => {
                 </div>
 
                 {/* Patients Table */}
-                <div className="bg-white rounded-lg shadow-md overflow-hidden">
+                <div className="rounded-xl border border-slate-700 bg-slate-800/60 overflow-hidden backdrop-blur-md">
                     <div className="overflow-x-auto">
-                        <table className="min-w-full divide-y divide-gray-200">
-                            <thead className="bg-gray-50">
+                        <table className="min-w-full divide-y divide-slate-700">
+                            <thead className="bg-slate-900/60">
                                 <tr>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">
                                         Patient
                                     </th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">
                                         Date of Birth
                                     </th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">
                                         Gender
                                     </th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">
                                         Contact
                                     </th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">
                                         Status
                                     </th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">
                                         Actions
                                     </th>
                                 </tr>
                             </thead>
-                            <tbody className="bg-white divide-y divide-gray-200">
+                            <tbody className="divide-y divide-slate-700">
                                 {patients.length === 0 ? (
                                     <tr>
-                                        <td colSpan="6" className="px-6 py-12 text-center text-gray-500">
+                                        <td colSpan="6" className="px-6 py-12 text-center text-slate-400">
                                             No patients found
                                         </td>
                                     </tr>
                                 ) : (
                                     patients.map((patient) => (
-                                        <tr key={patient.id} className="hover:bg-gray-50">
+                                        <tr key={patient.id} className="bg-slate-800/40 hover:bg-slate-700/40 transition-colors">
                                             <td className="px-6 py-4 whitespace-nowrap">
                                                 <div className="flex items-center">
-                                                    <div className="flex-shrink-0 h-10 w-10 bg-primary-100 rounded-full flex items-center justify-center">
-                                                        <span className="text-primary-600 font-semibold text-sm">
+                                                    <div className="flex-shrink-0 h-10 w-10 rounded-full bg-gradient-to-br from-cyan-600 to-blue-700 flex items-center justify-center">
+                                                        <span className="text-white font-semibold text-sm">
                                                             {patient.firstName?.[0]}{patient.lastName?.[0]}
                                                         </span>
                                                     </div>
                                                     <div className="ml-4">
-                                                        <div className="text-sm font-medium text-gray-900">
+                                                        <div className="text-sm font-medium text-slate-100">
                                                             {patient.firstName} {patient.lastName}
                                                         </div>
-                                                        <div className="text-sm text-gray-500">{patient.email}</div>
+                                                        <div className="text-sm text-slate-400">{patient.email}</div>
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-300">
                                                 {patient.dob ? new Date(patient.dob).toLocaleDateString() : 'N/A'}
                                             </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-300">
                                                 {patient.gender}
                                             </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-300">
                                                 {patient.phone || 'N/A'}
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap">
-                                                <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${patient.status === 'ACTIVE'
-                                                    ? 'bg-green-100 text-green-800'
-                                                    : 'bg-gray-100 text-gray-800'
-                                                    }`}>
+                                                <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                                                    patient.status === 'ACTIVE'
+                                                        ? 'bg-green-100 text-green-800'
+                                                        : 'bg-yellow-100 text-yellow-800'
+                                                }`}>
                                                     {patient.status}
                                                 </span>
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                                <div className="flex gap-2">
+                                                <div className="flex gap-3">
                                                     <Link
                                                         to={`/patients/${patient.id}`}
-                                                        className="text-primary-600 hover:text-primary-900"
+                                                        className="text-cyan-400 hover:text-cyan-300 transition-colors"
                                                         title="View"
                                                     >
                                                         <Eye className="w-5 h-5" />
                                                     </Link>
                                                     <Link
                                                         to={`/patients/${patient.id}/edit`}
-                                                        className="text-blue-600 hover:text-blue-900"
+                                                        className="text-blue-400 hover:text-blue-300 transition-colors"
                                                         title="Edit"
                                                     >
                                                         <Edit className="w-5 h-5" />
                                                     </Link>
                                                     <button
                                                         onClick={() => handleDelete(patient.id)}
-                                                        className="text-red-600 hover:text-red-900"
+                                                        className="text-red-400 hover:text-red-300 transition-colors"
                                                         title="Delete"
                                                     >
                                                         <Trash2 className="w-5 h-5" />
@@ -232,48 +231,44 @@ const PatientsPage = () => {
 
                     {/* Pagination */}
                     {totalPages > 1 && (
-                        <div className="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
+                        <div className="px-4 py-3 flex items-center justify-between border-t border-slate-700 sm:px-6">
                             <div className="flex-1 flex justify-between sm:hidden">
                                 <button
                                     onClick={() => setCurrentPage(prev => Math.max(0, prev - 1))}
                                     disabled={currentPage === 0}
-                                    className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50"
+                                    className="relative inline-flex items-center px-4 py-2 border border-slate-600 text-sm font-medium rounded-md text-slate-300 bg-slate-800 hover:bg-slate-700 disabled:opacity-50"
                                 >
                                     Previous
                                 </button>
                                 <button
                                     onClick={() => setCurrentPage(prev => Math.min(totalPages - 1, prev + 1))}
                                     disabled={currentPage === totalPages - 1}
-                                    className="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50"
+                                    className="ml-3 relative inline-flex items-center px-4 py-2 border border-slate-600 text-sm font-medium rounded-md text-slate-300 bg-slate-800 hover:bg-slate-700 disabled:opacity-50"
                                 >
                                     Next
                                 </button>
                             </div>
                             <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
-                                <div>
-                                    <p className="text-sm text-gray-700">
-                                        Page <span className="font-medium">{currentPage + 1}</span> of{' '}
-                                        <span className="font-medium">{totalPages}</span>
-                                    </p>
-                                </div>
-                                <div>
-                                    <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px">
-                                        <button
-                                            onClick={() => setCurrentPage(prev => Math.max(0, prev - 1))}
-                                            disabled={currentPage === 0}
-                                            className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50"
-                                        >
-                                            Previous
-                                        </button>
-                                        <button
-                                            onClick={() => setCurrentPage(prev => Math.min(totalPages - 1, prev + 1))}
-                                            disabled={currentPage === totalPages - 1}
-                                            className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50"
-                                        >
-                                            Next
-                                        </button>
-                                    </nav>
-                                </div>
+                                <p className="text-sm text-slate-400">
+                                    Page <span className="font-medium text-slate-200">{currentPage + 1}</span> of{' '}
+                                    <span className="font-medium text-slate-200">{totalPages}</span>
+                                </p>
+                                <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px">
+                                    <button
+                                        onClick={() => setCurrentPage(prev => Math.max(0, prev - 1))}
+                                        disabled={currentPage === 0}
+                                        className="relative inline-flex items-center px-3 py-2 rounded-l-md border border-slate-600 bg-slate-800 text-sm font-medium text-slate-300 hover:bg-slate-700 disabled:opacity-50"
+                                    >
+                                        Previous
+                                    </button>
+                                    <button
+                                        onClick={() => setCurrentPage(prev => Math.min(totalPages - 1, prev + 1))}
+                                        disabled={currentPage === totalPages - 1}
+                                        className="relative inline-flex items-center px-3 py-2 rounded-r-md border border-slate-600 bg-slate-800 text-sm font-medium text-slate-300 hover:bg-slate-700 disabled:opacity-50"
+                                    >
+                                        Next
+                                    </button>
+                                </nav>
                             </div>
                         </div>
                     )}

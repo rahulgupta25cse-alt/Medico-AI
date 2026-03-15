@@ -1,0 +1,122 @@
+/* Mobile Layout Styles */
+
+.glass-effect {
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+}
+
+/* Mobile Navigation */
+@media (max-width: 768px) {
+    /* Ensure scrolling doesn't show scrollbars */
+    main {
+        scroll-behavior: smooth;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* Touch-friendly buttons */
+    button {
+        min-height: 44px;
+        min-width: 44px;
+    }
+
+    /* Hide scrollbar but allow scrolling */
+    main::-webkit-scrollbar {
+        display: none;
+    }
+
+    main {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+
+    /* Safe area support for notch */
+    body {
+        padding: max(0px, env(safe-area-inset-bottom));
+    }
+}
+
+/* Bottom Navigation Safe Area */
+nav {
+    padding-bottom: max(12px, env(safe-area-inset-bottom));
+}
+
+/* Smooth animations on mobile */
+@keyframes slide-up-mobile {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-slide-up {
+    animation: slide-up-mobile 0.3s ease-out;
+}
+
+/* Prevent zoom on input focus */
+input,
+textarea,
+select {
+    font-size: 16px;
+}
+
+/* Mobile menu smooth transitions */
+.mobile-menu {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+}
+
+.mobile-menu.open {
+    max-height: 500px;
+}
+
+/* Responsive text sizes */
+@media (max-width: 640px) {
+    h1 {
+        font-size: 1.5rem !important;
+    }
+
+    h2 {
+        font-size: 1.25rem !important;
+    }
+
+    p {
+        font-size: 0.9rem;
+    }
+}
+
+/* Tab navigation for mobile */
+.tab-button {
+    position: relative;
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+    border-radius: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.tab-button.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #06b6d4, #0ea5e9);
+}
+
+/* Card stacking on mobile */
+@media (max-width: 768px) {
+    .grid {
+        gap: 1rem !important;
+    }
+
+    .glass-card {
+        border-radius: 1rem;
+        padding: 1rem;
+    }
+}

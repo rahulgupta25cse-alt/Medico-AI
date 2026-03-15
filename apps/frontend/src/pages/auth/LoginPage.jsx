@@ -20,7 +20,13 @@ const LoginPage = () => {
       await login(normalizedEmail, password)
       navigate('/dashboard')
     } catch (err) {
-      setError(err.response?.data?.message || 'Invalid email or password')
+      if (!err.response) {
+        setError('Unable to reach backend service. Please ensure API server and database are running.')
+      } else if (err.response.status === 401 || err.response.status === 403) {
+        setError(err.response?.data?.message || 'Invalid email or password')
+      } else {
+        setError(err.response?.data?.message || 'Login failed. Please try again.')
+      }
     } finally {
       setLoading(false)
     }

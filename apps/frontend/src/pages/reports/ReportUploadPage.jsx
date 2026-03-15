@@ -126,30 +126,26 @@ const ReportUploadPage = () => {
     }
 
     return (
-        <div className="min-h-screen bg-gray-50">
-            {/* Header */}
-            <div className="bg-white shadow">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-                    <h1 className="text-3xl font-bold text-gray-900">Upload Medical Report</h1>
-                    <p className="text-gray-600 mt-1">Upload and analyze patient medical reports</p>
-                </div>
-            </div>
+        <div className="space-y-6">
+            <header className="rounded-2xl border border-slate-700 bg-slate-800/60 p-6 backdrop-blur-md">
+                <h1 className="text-3xl font-bold text-slate-100">Upload Health Report</h1>
+                <p className="mt-1 text-slate-400">Upload and analyze patient medical reports</p>
+            </header>
 
-            <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-                <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-md p-6">
+            <form onSubmit={handleSubmit} className="rounded-xl border border-slate-700 bg-slate-800/60 p-6">
                     {/* Report Information */}
                     <div className="mb-6">
-                        <h2 className="text-xl font-bold text-gray-900 mb-4">Report Information</h2>
+                        <h2 className="text-xl font-bold text-slate-100 mb-4">Report Information</h2>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <label className="block text-sm font-medium text-slate-300 mb-2">
                                     Patient <span className="text-red-500">*</span>
                                 </label>
                                 <select
                                     name="patientId"
                                     value={formData.patientId}
                                     onChange={handleChange}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                                    className="w-full px-4 py-2 border border-slate-600 bg-slate-900/70 text-slate-100 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
                                     required
                                 >
                                     <option value="">Select a Patient</option>
@@ -169,14 +165,14 @@ const ReportUploadPage = () => {
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <label className="block text-sm font-medium text-slate-300 mb-2">
                                     Report Type <span className="text-red-500">*</span>
                                 </label>
                                 <select
                                     name="reportType"
                                     value={formData.reportType}
                                     onChange={handleChange}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                                    className="w-full px-4 py-2 border border-slate-600 bg-slate-900/70 text-slate-100 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
                                 >
                                     <option value="LAB_RESULT">Lab Result</option>
                                     <option value="IMAGING">Imaging</option>
@@ -187,7 +183,7 @@ const ReportUploadPage = () => {
                             </div>
 
                             <div className="md:col-span-2">
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <label className="block text-sm font-medium text-slate-300 mb-2">
                                     Report Title <span className="text-red-500">*</span>
                                 </label>
                                 <input
@@ -195,14 +191,14 @@ const ReportUploadPage = () => {
                                     name="title"
                                     value={formData.title}
                                     onChange={handleChange}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                                    className="w-full px-4 py-2 border border-slate-600 bg-slate-900/70 text-slate-100 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
                                     placeholder="e.g., Blood Test Results - January 2026"
                                     required
                                 />
                             </div>
 
                             <div className="md:col-span-2">
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <label className="block text-sm font-medium text-slate-300 mb-2">
                                     Description
                                 </label>
                                 <textarea
@@ -210,7 +206,7 @@ const ReportUploadPage = () => {
                                     value={formData.description}
                                     onChange={handleChange}
                                     rows="3"
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                                    className="w-full px-4 py-2 border border-slate-600 bg-slate-900/70 text-slate-100 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
                                     placeholder="Add any additional notes or context..."
                                 />
                             </div>
@@ -219,20 +215,20 @@ const ReportUploadPage = () => {
 
                     {/* File Upload */}
                     <div className="mb-6">
-                        <h2 className="text-xl font-bold text-gray-900 mb-4">Upload File</h2>
+                        <h2 className="text-xl font-bold text-slate-100 mb-4">Upload File</h2>
 
                         {!selectedFile ? (
                             <div
                                 onDrop={handleDrop}
                                 onDragOver={handleDragOver}
-                                className="border-2 border-dashed border-gray-300 rounded-lg p-12 text-center hover:border-primary-500 transition-colors cursor-pointer"
+                                className="border-2 border-dashed border-slate-600 rounded-lg p-12 text-center hover:border-cyan-500 transition-colors cursor-pointer bg-slate-900/40"
                                 onClick={() => document.getElementById('fileInput').click()}
                             >
-                                <Upload className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                                <p className="text-lg font-medium text-gray-900 mb-2">
+                                <Upload className="w-12 h-12 text-slate-500 mx-auto mb-4" />
+                                <p className="text-lg font-medium text-slate-100 mb-2">
                                     Drop your file here or click to browse
                                 </p>
-                                <p className="text-sm text-gray-500">
+                                <p className="text-sm text-slate-400">
                                     Supported formats: PDF, JPG, PNG (Max 10MB)
                                 </p>
                                 <input
@@ -244,13 +240,13 @@ const ReportUploadPage = () => {
                                 />
                             </div>
                         ) : (
-                            <div className="border-2 border-primary-500 rounded-lg p-6 bg-primary-50">
+                            <div className="border-2 border-cyan-500/60 rounded-lg p-6 bg-cyan-500/10">
                                 <div className="flex items-center justify-between">
                                     <div className="flex items-center">
                                         <FileText className="w-10 h-10 text-primary-600 mr-4" />
                                         <div>
-                                            <p className="font-medium text-gray-900">{selectedFile.name}</p>
-                                            <p className="text-sm text-gray-500">
+                                            <p className="font-medium text-slate-100">{selectedFile.name}</p>
+                                            <p className="text-sm text-slate-400">
                                                 {(selectedFile.size / 1024 / 1024).toFixed(2)} MB
                                             </p>
                                         </div>
@@ -258,7 +254,7 @@ const ReportUploadPage = () => {
                                     <button
                                         type="button"
                                         onClick={() => setSelectedFile(null)}
-                                        className="text-red-600 hover:text-red-800"
+                                        className="text-red-400 hover:text-red-300"
                                     >
                                         <X className="w-6 h-6" />
                                     </button>
@@ -267,12 +263,12 @@ const ReportUploadPage = () => {
                                 {uploading && (
                                     <div className="mt-4">
                                         <div className="flex items-center justify-between mb-2">
-                                            <span className="text-sm font-medium text-gray-700">Uploading...</span>
-                                            <span className="text-sm font-medium text-gray-700">{uploadProgress}%</span>
+                                            <span className="text-sm font-medium text-slate-300">Uploading...</span>
+                                            <span className="text-sm font-medium text-slate-300">{uploadProgress}%</span>
                                         </div>
-                                        <div className="w-full bg-gray-200 rounded-full h-2">
+                                        <div className="w-full bg-slate-700 rounded-full h-2">
                                             <div
-                                                className="bg-primary-600 h-2 rounded-full transition-all duration-300"
+                                                className="bg-cyan-500 h-2 rounded-full transition-all duration-300"
                                                 style={{ width: `${uploadProgress}%` }}
                                             />
                                         </div>
@@ -308,7 +304,7 @@ const ReportUploadPage = () => {
                         <button
                             type="button"
                             onClick={() => navigate('/reports')}
-                            className="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
+                            className="px-6 py-2 border border-slate-600 rounded-lg text-slate-300 hover:bg-slate-700 transition-colors"
                             disabled={uploading}
                         >
                             Cancel
@@ -316,13 +312,12 @@ const ReportUploadPage = () => {
                         <button
                             type="submit"
                             disabled={uploading || !selectedFile}
-                            className="px-6 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="px-6 py-2 bg-gradient-to-r from-cyan-600 to-blue-600 text-white rounded-lg hover:shadow-lg hover:shadow-cyan-900/40 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                             {uploading ? 'Uploading...' : 'Upload Report'}
                         </button>
                     </div>
-                </form>
-            </div>
+            </form>
         </div>
     )
 }
